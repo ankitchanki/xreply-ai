@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>XReply AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="logo">
+      <span class="logo-icon">⚡</span>
+      <div>
+        <div class="logo-name">XReply AI <span class="version-badge">v4</span></div>
+        <div class="logo-sub">Grow faster on X</div>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button class="theme-toggle" id="themeToggle"><span class="theme-icon-dark">🌙</span><span class="theme-icon-light">☀️</span></button>
+      <div class="status-dot" id="statusDot"></div>
+      <button class="gear-btn" id="gearBtn" title="API Keys">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="tabs" id="mainTabs">
+    <button class="tab active" data-tab="apikeys">Keys</button>
+    <button class="tab" data-tab="settings">Settings</button>
+    <button class="tab" data-tab="persona">Persona</button>
+    <button class="tab" data-tab="queue">Queue <span class="tab-badge" id="queueBadge" style="display:none">0</span></button>
+    <button class="tab" data-tab="dashboard">Stats</button>
+    <button class="tab" data-tab="log">Log</button>
+  </div>
+
+  <!-- ══ API Keys ══ -->
+  <div class="tab-content active" id="tab-apikeys">
+    <div class="section">
+      <label class="label">Active AI Provider</label>
+      <div class="provider-selector">
+        <button class="provider-btn active" data-provider="claude"><span class="provider-logo claude-logo">✦</span><span>Claude</span></button>
+        <button class="provider-btn" data-provider="gemini"><span class="provider-logo gemini-logo">◈</span><span>Gemini</span></button>
+        <button class="provider-btn" data-provider="openai"><span class="provider-logo openai-logo">⬡</span><span>GPT-4</span></button>
+        <button class="provider-btn" data-provider="grok"><span class="provider-logo grok-logo">𝕏</span><span>Grok</span></button>
+        <button class="provider-btn" data-provider="groq"><span class="provider-logo groq-logo">⚡</span><span>Groq</span></button>
+      </div>
+      <div class="provider-free-badge">⚡ Groq is 100% free — start here if you have no paid keys</div>
+    </div>
+
+    <div class="key-accordion" id="keyAccordion">
+      <div class="key-panel" id="key-claude"><div class="key-panel-inner">
+        <div class="key-header"><span class="key-provider-name claude-text">✦ Claude (Anthropic)</span><a href="https://console.anthropic.com" target="_blank" class="key-get-link">Get key →</a></div>
+        <div class="input-group"><input type="password" id="apiKey_claude" class="input mono" placeholder="sk-ant-api03-..." autocomplete="off"/><button class="eye-btn" data-target="apiKey_claude">👁</button></div>
+        <div class="hint">Best quality replies. Supports image understanding.</div>
+      </div></div>
+
+      <div class="key-panel" id="key-gemini"><div class="key-panel-inner">
+        <div class="key-header"><span class="key-provider-name gemini-text">◈ Gemini (Google)</span><a href="https://aistudio.google.com/app/apikey" target="_blank" class="key-get-link">Get key →</a></div>
+        <div class="input-group"><input type="password" id="apiKey_gemini" class="input mono" placeholder="AIzaSy..." autocomplete="off"/><button class="eye-btn" data-target="apiKey_gemini">👁</button></div>
+        <div class="hint">Free tier available. Supports image understanding.</div>
+      </div></div>
+
+      <div class="key-panel" id="key-openai"><div class="key-panel-inner">
+        <div class="key-header"><span class="key-provider-name openai-text">⬡ GPT-4o (OpenAI)</span><a href="https://platform.openai.com/api-keys" target="_blank" class="key-get-link">Get key →</a></div>
+        <div class="input-group"><input type="password" id="apiKey_openai" class="input mono" placeholder="sk-proj-..." autocomplete="off"/><button class="eye-btn" data-target="apiKey_openai">👁</button></div>
+        <div class="hint">GPT-4o with vision. Requires paid credits.</div>
+      </div></div>
+
+      <div class="key-panel" id="key-grok"><div class="key-panel-inner">
+        <div class="key-header"><span class="key-provider-name grok-text">𝕏 Grok (xAI)</span><a href="https://console.x.ai" target="_blank" class="key-get-link">Get key →</a></div>
+        <div class="input-group"><input type="password" id="apiKey_grok" class="input mono" placeholder="xai-..." autocomplete="off"/><button class="eye-btn" data-target="apiKey_grok">👁</button></div>
+        <div class="hint">Made by X. Best for X-native culture and humor.</div>
+      </div></div>
+
+      <div class="key-panel" id="key-groq"><div class="key-panel-inner">
+        <div class="key-header"><span class="key-provider-name groq-text">⚡ Groq (Free)</span><a href="https://console.groq.com" target="_blank" class="key-get-link">Get free key →</a></div>
+        <div class="input-group"><input type="password" id="apiKey_groq" class="input mono" placeholder="gsk_..." autocomplete="off"/><button class="eye-btn" data-target="apiKey_groq">👁</button></div>
+        <div class="hint">100% free forever. Fast Llama 3.3 70B. Best for high volume.</div>
+      </div></div>
+    </div>
+
+    <button class="save-btn" id="saveKeysBtn">Save API Keys</button>
+    <div class="save-status" id="saveKeysStatus"></div>
+  </div>
+
+  <!-- ══ Settings ══ -->
+  <div class="tab-content" id="tab-settings">
+    <div class="section">
+      <label class="label">Default tone</label>
+      <div class="tone-grid">
+        <button class="tone-chip" data-tone="funny">😂 Funny</button>
+        <button class="tone-chip active" data-tone="bigbrain">🧠 Big Brain</button>
+        <button class="tone-chip" data-tone="knowledge">📚 Knowledge</button>
+        <button class="tone-chip" data-tone="ragebait">🔥 Ragebait</button>
+        <button class="tone-chip" data-tone="agree">🤝 Amplify</button>
+        <button class="tone-chip" data-tone="thread">🧵 Thread Hook</button>
+        <button class="tone-chip" data-tone="flirt">😏 Flirt</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <label class="label section-title">Trigger behavior</label>
+      <div class="trigger-row">
+        <div class="trigger-info"><span class="trigger-label">💬 Reply box</span><span class="trigger-desc">Auto-open when clicking to reply</span></div>
+        <div class="toggle-wrap"><input type="checkbox" id="autoOpenReply" class="toggle-input" checked/><label for="autoOpenReply" class="toggle-label"></label></div>
+      </div>
+      <div class="trigger-row">
+        <div class="trigger-info"><span class="trigger-label">✍️ Post box</span><span class="trigger-desc">Auto-open on "What's happening?"</span></div>
+        <div class="toggle-wrap"><input type="checkbox" id="autoOpenPost" class="toggle-input"/><label for="autoOpenPost" class="toggle-label"></label></div>
+      </div>
+      <div class="shortcut-hint"><span class="shortcut-key">Alt + X</span> opens/closes anytime</div>
+    </div>
+
+    <div class="section">
+      <label class="label">Anti-AI humanizer <div class="toggle-wrap"><input type="checkbox" id="antiAI" class="toggle-input" checked/><label for="antiAI" class="toggle-label"></label></div></label>
+      <div class="hint">Strips AI-sounding phrases. Makes replies feel human-typed.</div>
+    </div>
+
+    <div class="section">
+      <label class="label">Theme</label>
+      <div class="theme-choice">
+        <button class="theme-chip active" data-theme="dark">🌙 Dark</button>
+        <button class="theme-chip" data-theme="light">☀️ Light</button>
+        <button class="theme-chip" data-theme="system">💻 System</button>
+      </div>
+    </div>
+
+    <button class="save-btn" id="saveSettingsBtn">Save Settings</button>
+    <div class="save-status" id="saveSettingsStatus"></div>
+  </div>
+
+  <!-- ══ Persona ══ -->
+  <div class="tab-content" id="tab-persona">
+
+    <!-- Profile switcher -->
+    <div class="section">
+      <label class="label">
+        Persona Profiles
+        <button class="add-profile-btn" id="addProfileBtn">+ New</button>
+      </label>
+      <div class="profile-list" id="profileList">
+        <!-- populated by JS -->
+      </div>
+    </div>
+
+    <!-- Profile editor -->
+    <div class="profile-editor" id="profileEditor">
+      <div class="section">
+        <label class="label">Profile name</label>
+        <input type="text" id="profileName" class="input" placeholder="e.g. Crypto Trader, Fitness Coach..." />
+      </div>
+
+      <div class="section">
+        <label class="label">Niche</label>
+        <div class="niche-grid" id="nicheGrid">
+          <button class="niche-chip" data-niche="">None</button>
+          <button class="niche-chip" data-niche="crypto">₿ Crypto</button>
+          <button class="niche-chip" data-niche="saas">🚀 SaaS</button>
+          <button class="niche-chip" data-niche="fitness">💪 Fitness</button>
+          <button class="niche-chip" data-niche="finance">📈 Finance</button>
+          <button class="niche-chip" data-niche="tech">⚙️ Tech</button>
+          <button class="niche-chip" data-niche="creator">🎬 Creator</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="persona-label-row">
+          <label class="label" style="margin:0">Voice & personality</label>
+          <button class="enhance-btn" id="enhancePersonaBtn" title="Let AI rewrite this into a detailed persona">
+            <span class="enhance-icon">✦</span> AI Enhance
+          </button>
+        </div>
+        <textarea id="customPersona" class="textarea" rows="4" placeholder="Describe your style...
+- Direct, confident, occasionally contrarian
+- Short punchy sentences. No fluff.
+- Dark humor. Never preachy."></textarea>
+        <div class="enhance-status" id="enhanceStatus"></div>
+      </div>
+
+      <div class="section">
+        <label class="label">Topics</label>
+        <input type="text" id="topics" class="input" placeholder="e.g. AI, startups, fitness..."/>
+      </div>
+
+      <div class="profile-editor-actions">
+        <button class="save-btn" id="savePersonaBtn">Save Profile</button>
+        <button class="del-profile-btn" id="delProfileBtn" style="display:none">Delete</button>
+      </div>
+      <div class="save-status" id="savePersonaStatus"></div>
+    </div>
+  </div>
+
+  <!-- ══ Queue ══ -->
+  <div class="tab-content" id="tab-queue">
+    <div class="queue-header">
+      <span class="log-count" id="queueCount">0 replies queued</span>
+      <button class="clear-btn" id="clearQueue">Clear all</button>
+    </div>
+    <div class="queue-hint">Tap any reply to copy it. Check off when posted.</div>
+    <div class="queue-list" id="queueList">
+      <div class="log-empty">No replies queued yet. Use "+ Queue" button on any generated reply.</div>
+    </div>
+  </div>
+
+  <!-- ══ Dashboard ══ -->
+  <div class="tab-content" id="tab-dashboard">
+    <div class="dash-grid">
+      <div class="dash-card">
+        <div class="dash-num" id="dash-total">0</div>
+        <div class="dash-label">Total replies</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-num" id="dash-today">0</div>
+        <div class="dash-label">Today</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-num" id="dash-cost">$0</div>
+        <div class="dash-label">Est. cost</div>
+      </div>
+      <div class="dash-card">
+        <div class="dash-num" id="dash-streak">0</div>
+        <div class="dash-label">Day streak</div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:12px">
+      <label class="label">Top tones used</label>
+      <div class="tone-bars" id="toneBars"></div>
+    </div>
+
+    <div class="section" style="margin-top:12px">
+      <label class="label">Starred replies <span style="font-size:10px;color:var(--text3)">(mark ⭐ in log)</span></label>
+      <div class="starred-list" id="starredList">
+        <div class="log-empty">No starred replies yet.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ Log ══ -->
+  <div class="tab-content" id="tab-log">
+    <div class="log-header">
+      <span class="log-count" id="logCount">0 replies</span>
+      <button class="clear-btn" id="clearLog">Clear</button>
+    </div>
+    <div class="log-list" id="logList">
+      <div class="log-empty">No replies yet.</div>
+    </div>
+  </div>
+
+</div>
+<script src="popup.js"></script>
+</body>
+</html>
